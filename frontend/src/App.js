@@ -15,6 +15,7 @@ import BillHistory from './components/common/BillHistory';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import VoiceAssistant from './components/common/VoiceAssistant';
 import BillPrint from './pages/BillPrint';
+import BillPrint from './pages/BillPrint';
 
 // Helper to get current user from localStorage
 const getCurrentUser = () => {
