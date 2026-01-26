@@ -14,6 +14,7 @@ import ManageUsers from './components/superadmin/ManageUsers';
 import BillHistory from './components/common/BillHistory';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import TestDashboard from './pages/TestDashboard';
+import VoiceAssistant from './components/common/VoiceAssistant';
 
 // Helper to get current user from localStorage
 const getCurrentUser = () => {
@@ -35,7 +36,7 @@ const RootRedirect = () => {
   }
 
   if (user.role === 'super_admin') {
-    return <Navigate to="/super_admin-dashboard" replace />;
+    return <Navigate to="/super-admin-dashboard" replace />;
   } else if (user.role === 'admin') {
     return <Navigate to="/admin-dashboard" replace />;
   } else {
@@ -86,7 +87,7 @@ function App() {
 
         {/* SuperAdmin Dashboard - SuperAdmin only */}
         <Route
-          path="/super_admin-dashboard"
+          path="/super-admin-dashboard"
           element={
             <ProtectedRoute allowedRoles={['super_admin']}>
               <SuperAdminDashboard />
@@ -167,6 +168,9 @@ function App() {
         {/* Catch all - redirect to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {/* Voice Assistant - Available on all pages for logged-in users */}
+      <VoiceAssistant />
     </Router>
   );
 }

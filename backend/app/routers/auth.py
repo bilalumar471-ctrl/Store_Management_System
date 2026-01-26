@@ -23,7 +23,7 @@ def login(request: LoginRequest, db:Session= Depends(get_db)):
     if not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            details="User Account is inactive"
+            detail="User Account is inactive"
         )
     
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)

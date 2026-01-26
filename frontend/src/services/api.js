@@ -226,4 +226,29 @@ export const userAPI = {
   },
 };
 
+// ==================== VOICE ASSISTANT ====================
+export const voiceAPI = {
+  chat: async (sessionId, message) => {
+    const response = await api.post('/api/voice/chat', { 
+      session_id: sessionId, 
+      message: message 
+    });
+    return response.data;
+  },
+
+  resetSession: async (sessionId) => {
+    const response = await api.post('/api/voice/reset-session', { 
+      session_id: sessionId 
+    });
+    return response.data;
+  },
+
+  getHistory: async (sessionId, limit = 50) => {
+    const response = await api.get(`/api/voice/history/${sessionId}`, {
+      params: { limit }
+    });
+    return response.data;
+  },
+};
+
 export default api;
