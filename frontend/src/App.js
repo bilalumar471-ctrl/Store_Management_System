@@ -13,8 +13,8 @@ import ViewUsers from './components/admin/ViewUsers';
 import ManageUsers from './components/superadmin/ManageUsers';
 import BillHistory from './components/common/BillHistory';
 import ProtectedRoute from './components/common/ProtectedRoute';
-import TestDashboard from './pages/TestDashboard';
 import VoiceAssistant from './components/common/VoiceAssistant';
+import BillPrint from './pages/BillPrint';
 
 // Helper to get current user from localStorage
 const getCurrentUser = () => {
@@ -121,6 +121,16 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['user', 'admin', 'super_admin']}>
               <BillHistory />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Bill Print - All authenticated users */}
+        <Route
+          path="/print-bill/:id"
+          element={
+            <ProtectedRoute allowedRoles={['user', 'admin', 'super_admin']}>
+              <BillPrint />
             </ProtectedRoute>
           }
         />

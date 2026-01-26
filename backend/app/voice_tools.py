@@ -401,6 +401,7 @@ def execute_create_bill(args: Dict, db: Session, user: User) -> Dict:
     
     return {
         "success": True,
+        "bill_id": db_bill.id,
         "bill_number": bill_number,
         "total_amount": total_amount,
         "items": item_summaries,

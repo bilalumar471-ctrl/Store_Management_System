@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { voiceAPI } from '../../services/api';
 import './VoiceAssistant.css';
 
 const VoiceAssistant = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -107,7 +109,8 @@ const VoiceAssistant = () => {
             setMessages(prev => [...prev, {
                 role: 'assistant',
                 content: messageContent,
-                action: actionPerformed
+                action: actionPerformed,
+                data: response.data
             }]);
 
             // Speak the response
@@ -198,7 +201,23 @@ const VoiceAssistant = () => {
                         )}
                         {messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.role}`}>
-                                <div className="message-content">{msg.content}</div>
+                                <div className="message-content">
+                                    {msg.content}
+                                    {msg.data && msg.data.bill_id && (
+                                        <button
+                                            onClick={() => {
+                                                setIsOpen(false);
+                                                navigate(`/print-bill/${msg.data.bill_id}`);
+                                            }}
+                                            className="mt-2 flex items-center bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-semibold shadow-sm hover:bg-gray-50 transition-colors"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0v3H7V4h6zm-8 7.414l2.293 2.293a1 1 0 001.414 0L16 6.414V9a1 1 0 001 1h-1v-2H5v2H4a1 1 0 00-1-1v-2.586a1 1 0 00.293-.707zM15 15v2H5v-2h10z" clipRule="evenodd" />
+                                            </svg>
+                                            Print Bill
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         ))}
                         {isLoading && (

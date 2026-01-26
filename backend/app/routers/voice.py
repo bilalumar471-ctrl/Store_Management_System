@@ -4,7 +4,7 @@ Voice Assistant Router with Function Calling Support
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 from app.session_manager import session_manager
 from app.openai_service import get_ai_response_with_tools, get_final_response
@@ -27,6 +27,7 @@ class ChatResponse(BaseModel):
     response: str
     session_id: str
     action_performed: Optional[str] = None
+    data: Optional[Dict[str, Any]] = None
 
 
 class ResetRequest(BaseModel):
@@ -149,7 +150,8 @@ def chat(
         return ChatResponse(
             response=ai_response,
             session_id=request.session_id,
-            action_performed=action_performed
+            action_performed=action_performed,
+            data=tool_result if tool_result and tool_result.get("success") else None
         )
     
     except Exception as e:
